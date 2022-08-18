@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Button } from "react-bootstrap";
-import products from "../products";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Product = () => {
-  const { id } = useParams();
-  const product = products.find((item) => item._id === id);
+const Product = (history) => {
+  let { id } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const sendReq = async () => {
+      const response = await axios.get(
+        `http://localhost:8000/api/products/${id}`
+      );
+      setProduct(response.data);
+    };
+    sendReq();
+  });
+  const addToCartHandler = () => {
+    navigate(`/cart/${id}`);
+  };
 
   return (
     <div>
@@ -14,7 +29,7 @@ const Product = () => {
       </Link>
       <Row>
         <Col md={6}>
-          <Image src={product.image} fliud="true" />
+          <Image src={product.image} fluid />
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">
@@ -28,7 +43,11 @@ const Product = () => {
         <Col md={3}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <Button className="btn-block" type="button">
+              <Button
+                onClick={addToCartHandler}
+                className="btn-block"
+                type="button"
+              >
                 In den Warenkorb
               </Button>
             </ListGroup.Item>

@@ -4,6 +4,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { Container } from "react-bootstrap";
 import Home from "./Pages/Home";
+import Cart from "./Pages/Cart";
 import Product from "./Pages/Product";
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} exact />
               <Route path="/product/:id" element={<Product />} />
+              <Route path="/cart/:id" element={<Cart />} />
             </Routes>
           </Container>
         </main>
